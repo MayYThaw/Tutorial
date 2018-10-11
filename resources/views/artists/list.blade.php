@@ -24,7 +24,12 @@
                 			<td>{{$art->gender}}</td>
                       <td>{{$art->nativetown}}</td>
                 			<td>
-                				Edit/Delete
+                				<a class="btn btn-info" href="{{url('')}}/artists/{{$art->id}}/edit">Edit</a>
+
+                		<form class="delete-form" action="{{url('artists/')}}/{{$art->id}}" method="post">
+                			@csrf
+                			@method('delete')
+                			<input class="btn btn-danger" type="submit" value="Delete">
                 		</form>
                 	</td>
 

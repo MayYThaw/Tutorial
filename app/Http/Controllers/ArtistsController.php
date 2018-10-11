@@ -7,20 +7,17 @@ use Illuminate\Http\Request;
 
 class ArtistsController extends Controller
 {
-  public function __construct()
-  {
-    $this->middleware('auth');
-  }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index()
     {
-      $artists = Artists::paginate(5);
-      return view("artists/list",compact('artists'));
+        $artists = Artists::paginate(5);
+        return view("artists/list",compact('artists'));
     }
 
     /**
@@ -30,7 +27,7 @@ class ArtistsController extends Controller
      */
     public function create()
     {
-        return view('/artists/create');
+        return view("artists/create");
     }
 
     /**
@@ -41,56 +38,62 @@ class ArtistsController extends Controller
      */
     public function store(Request $request)
     {
-      $artist = new Artists;
-      $artist->name = $request->name;
-      $artist->gender = $request->gender;
-      $artist->nativetown = $request->nativetown;
-      $artist->save();
-      return redirect("artists");
+        $artist = new Artists;
+        $artist->name = $request->name;
+        $artist->gender = $request->gender;
+        $artist->nativetown = $request->nativetown;
+        $artist->save();
+        return redirect("artists");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Artists  $artists
+     * @param  \App\Artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function show(Artists $artists)
+    public function show(Artists $artist)
     {
-
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Artists  $artists
+     * @param  \App\Artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function edit(Artists $artists)
+    public function edit(Artists $artist)
     {
-        //
+        return view("artists/edit",compact('artist'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Artists  $artists
+     * @param  \App\Artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Artists $artists)
+    public function update(Request $request, Artists $artist)
     {
-        //
+        $artist = Artists::find($artist->id);
+        $artist->name = $request->name;
+        $artist->gender = $request->gender;
+        $artist->nativetown = $request->nativetown;
+        $artist->save();
+        return redirect("artists");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Artists  $artists
+     * @param  \App\Artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Artists $artists)
+    public function destroy(Artists $artist)
     {
-        //
+        Artists::destroy($artist->id);
+        return redirect("artists");
     }
 }
